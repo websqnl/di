@@ -1,0 +1,26 @@
+{
+  "name": "@websqnl/di",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "private": false,
+  "scripts": {
+    "cp:package": "cp package.json dist",
+    "build": "tsc -p tsconfig.json && npm run cp:package"
+  },
+  "keywords": ["dependency", "injection", "di", "typescript", "simple", "kiss"],
+  "author": {
+    "name": "Guilherme Siquinelli",
+    "email": "email@guiseek.dev",
+    "url": "https://guiseek.dev"
+  },
+  "repository": {
+    "url": "https://github.com/websqnl/di",
+    "type": "git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
