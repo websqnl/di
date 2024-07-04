@@ -1,3 +1,7 @@
-export class Token<T = unknown> {
-  constructor(public name: string, public value?: T) {}
+export class Token {
+  constructor(public name: string) {}
+}
+
+export function createToken<T>(name: string) {
+  return new Token(name)
 }

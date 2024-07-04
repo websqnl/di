@@ -1,10 +1,10 @@
-import type {Factory, Type} from './types'
+import type {Fn, Type} from './types'
 
 export const check = {
-  isFactory<R>(value: unknown): value is Factory<R> {
+  isFn<T>(value: unknown): value is Fn<T> {
     return typeof value === 'function'
   },
   isType<T>(value: unknown): value is Type<T> {
-    return this.isFactory(value) && 'prototype' in value
+    return this.isFn(value) && typeof value.prototype === 'object'
   },
 }

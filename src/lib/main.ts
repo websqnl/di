@@ -1,48 +1,42 @@
-import type {ForFactory, ForToken, ForType, Type, For, Use} from './types'
-import type {Token} from './token'
+import type {Provider, Ref} from './types'
 import {check} from './check'
 
 const container = new Map()
 const relations = new Map()
 
-function use<T extends Type | Token>(type: T): Use<T> {
-  const concrete = container.get(type)
-  if (!concrete) throw `Provider ${type.name} não registrado`
-  return concrete
+function use<T>(ref: Ref<T>): T {
+  const value = container.get(ref)
+
+  if (!value) throw `${ref.name} not found`
+
+  return value
 }
 
-const provide = <T>({for: key, use}: For<T>) => {
-  const concrete = use ?? key
+function provide<T>({ref, use}: Provider<T>) {
+  const type = (use ?? ref) as T
 
-  if (check.isFactory<T>(concrete)) {
-    const deps = relations.get(key) ?? []
+  if (check.isFn<T>(type)) {
+    const deps = relations.get(ref) ?? []
 
-    if (check.isType<T>(concrete)) {
-      return new concrete(...deps)
+    if (check.isType<T>(type)) {
+      return new type(...deps)
     }
 
-    return concrete(...deps)
+    return type(...deps)
   }
 
-  return concrete as T
+  return type
 }
 
-function add<T>(provider: ForType<T>): void
-function add<T>(provider: ForToken<T>): void
-function add<T>(provider: ForFactory<T>): void
-function add<T>(provider: For<T>) {
-  if ('add' in provider) {
-    const items = provider.add ?? []
-    relations.set(
-      provider.for,
-      items.map((item) => use(item))
-    )
+function add<T>(provider: Provider<T>) {
+  if (provider.dep && provider.dep.length > 0) {
+    relations.set(provider.ref, provider.dep.map(use))
   }
-  const provided = provide(provider)
-  container.set(provider.for, provided)
+
+  container.set(provider.ref, provide(provider))
 }
 
-function set(...providers: For[]) {
+function set(...providers: Provider<any>[]) {
   providers.map(add)
 }
 

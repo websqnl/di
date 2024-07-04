@@ -20,24 +20,45 @@ class B {
 describe('di', () => {
   test('token with value', () => {
     const date = new Date()
-    let token = new Token<Date>('date.token')
+    const token = new Token('date.token')
 
-    add({for: token, use: date})
+    add({ref: token, use: date})
 
     expect(use(token)).toBe(date)
   })
 
-  test('abstract and implementation', () => {
-    add({for: Abstract, use: Implementation})
+  test('token with factory', () => {
+    const date = new Date()
+    const token = new Token('date.token')
 
-    const abs = use(Abstract)
+    add({ref: token, use: () => date})
 
-    expect(abs).toBeInstanceOf(Implementation)
-    expect(abs.hello()).toBe('hello')
+    expect(use(token)).toBe(date)
   })
 
-  test('type with dependencies', () => {
-    set({for: A, use: A}, {for: B, use: B, add: [A]})
+  test('abstract with implementation', () => {
+    add({ref: Abstract, use: Implementation})
+
+    expect(use(Abstract)).toBeInstanceOf(Implementation)
+  })
+
+  test('class with dependency', () => {
+    set({
+      ref: A
+    }, {
+      ref: B,
+      dep: [A]
+    })
+
+    const b = use(B)
+
+    expect(b).toBeInstanceOf(B)
+    expect(b.a).toBeInstanceOf(A)
+  })
+
+  test('class with dependency factory', () => {
+    add({ref: A})
+    add({ref: B, use: (a: A) => new B(a), dep: [A]})
 
     const b = use(B)
 
