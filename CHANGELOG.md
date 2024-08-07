@@ -1,3 +1,14 @@
+## 0.2.2 (2024-08-07)
+
+
+### 🩹 Fixes
+
+- folder dist ([1ceaf60](https://github.com/websqnl/di/commit/1ceaf60))
+
+### ❤️  Thank You
+
+- Gui Seek
+
 ## 0.2.1 (2024-08-07)
 
 
