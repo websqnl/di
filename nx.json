@@ -12,6 +12,11 @@
         "{projectRoot}/coverage"
       ],
       "cache": true
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "{projectRoot}/dist"
+      }
     }
   },
   "release": {
