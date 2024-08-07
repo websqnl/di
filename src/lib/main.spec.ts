@@ -1,3 +1,4 @@
+import {load} from './utls'
 import {Token} from './token'
 import {add, set, use} from './main'
 
@@ -18,37 +19,32 @@ class B {
 }
 
 describe('di', () => {
-  test('token with value', () => {
+  test('token with value', async () => {
     const date = new Date()
     const token = new Token('date.token')
 
-    add({ref: token, use: date})
+    await add({ref: token, use: date})
 
     expect(use(token)).toBe(date)
   })
 
-  test('token with factory', () => {
+  test('token with factory', async () => {
     const date = new Date()
     const token = new Token('date.token')
 
-    add({ref: token, use: () => date})
+    await add({ref: token, use: () => date})
 
     expect(use(token)).toBe(date)
   })
 
-  test('abstract with implementation', () => {
-    add({ref: Abstract, use: Implementation})
+  test('abstract with implementation', async () => {
+    await add({ref: Abstract, use: Implementation})
 
     expect(use(Abstract)).toBeInstanceOf(Implementation)
   })
 
-  test('class with dependency', () => {
-    set({
-      ref: A
-    }, {
-      ref: B,
-      dep: [A]
-    })
+  test('class with dependency', async () => {
+    await load(set({ref: A}, {ref: B, dep: [A]}))
 
     const b = use(B)
 
