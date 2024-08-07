@@ -15,16 +15,13 @@
     },
     "nx-release-publish": {
       "options": {
-        "packageRoot": "{projectRoot}/dist"
+        "packageRoot": "dist"
       }
     }
   },
   "release": {
     "changelog": {
-      "automaticFromRef": true,
-      "projectChangelogs": {
-        "createRelease": "github"
-      }
+      "automaticFromRef": true
     },
     "version": {
       "conventionalCommits": true
