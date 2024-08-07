@@ -8,7 +8,8 @@
   "scripts": {
     "cp:package": "cp package.json dist",
     "build": "tsc -p tsconfig.json && npm run cp:package",
-    "test": "jest"
+    "test": "jest",
+    "commit": "pnpx czg"
   },
   "keywords": [
     "dependency",

@@ -16,7 +16,10 @@
   },
   "release": {
     "changelog": {
-      "automaticFromRef": true
+      "automaticFromRef": true,
+      "projectChangelogs": {
+        "createRelease": "github"
+      }
     },
     "version": {
       "conventionalCommits": true
