@@ -1,6 +1,6 @@
 {
   "name": "@websqnl/di",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Simple and Functional TypeScript Dependency Injection",
   "main": "index.js",
   "types": "index.d.ts",
@@ -29,9 +29,17 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@nx/js": "^19.5.6",
+    "@swc-node/register": "~1.9.1",
+    "@swc/core": "~1.5.7",
+    "@swc/helpers": "~0.5.11",
     "@types/jest": "^29.5.12",
     "jest": "^29.7.0",
+    "nx": "19.5.6",
+    "prettier": "^2.6.2",
     "ts-jest": "^29.1.5",
     "typescript": "^5.4.5"
-  }
+  },
+  "nx": {},
+  "dependencies": {}
 }
