@@ -1,3 +1,14 @@
+## 0.2.0 (2024-08-07)
+
+
+### 🚀 Features
+
+- added feature to load providers with set ([0171932](https://github.com/websqnl/di/commit/0171932))
+
+### ❤️  Thank You
+
+- Gui Seek
+
 ## 0.1.0 (2024-08-07)
 
 
