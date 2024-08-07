@@ -1,6 +1,6 @@
 {
   "name": "@websqnl/di",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Simple and Functional TypeScript Dependency Injection",
   "main": "index.js",
   "types": "index.d.ts",
