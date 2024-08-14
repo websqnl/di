@@ -8,7 +8,7 @@ export type Fn<T> = (...params: any[]) => T
 
 export type Ref<T> = Abstract<T> | Type<T> | Token
 
-export type Use<T> = T | Type<T> | Fn<T>
+export type Use<T> = T | Type<T> | Fn<T> | Fn<Promise<T>>
 
 export interface Provider<T> {
   ref: Ref<T>

@@ -1,5 +1,5 @@
 import type {Provider, Ref} from './types'
-import {check} from './check'
+import {is} from './utils'
 
 const container = new Map()
 const relations = new Map()
@@ -15,14 +15,14 @@ function use<T>(ref: Ref<T>): T {
 const provide = async <T>({ref, use}: Provider<T>) => {
   const type = (use ?? ref) as T
 
-  if (check.isFn<T>(type)) {
+  if (is.fn<T>(type)) {
     const deps = relations.get(ref) ?? []
 
-    if (check.isType<T>(type)) {
+    if (is.type<T>(type)) {
       return new type(...deps)
     }
 
-    if (check.isAsyncFn<T>(type)) {
+    if (is.asyncFn<T>(type)) {
       return await type(...deps)
     }
 
@@ -43,7 +43,7 @@ const add = async <T>(provider: Provider<T>) => {
 }
 
 async function* set<T>(
-  ...providers: Provider<T>[]
+  ...providers: Provider<T | any>[]
 ): AsyncGenerator<T, void, unknown> {
   for (const p of providers) {
     yield await add(p)

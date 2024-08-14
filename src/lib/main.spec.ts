@@ -1,5 +1,5 @@
-import {load} from './utls'
-import {Token} from './token'
+import {load} from './utils'
+import {createToken, Token} from './token'
 import {add, set, use} from './main'
 
 abstract class Abstract {
@@ -17,6 +17,27 @@ class A {}
 class B {
   constructor(public a: A) {}
 }
+
+interface ResolveCallback<T> {
+  (value: T | PromiseLike<T>): void
+}
+
+interface RejectCallback {
+  (reason?: any): void
+}
+
+interface AsyncCallback<T> {
+  (resolve: ResolveCallback<T>, reject: RejectCallback): void
+}
+
+function async<T>(fn: AsyncCallback<T>) {
+  return new Promise<T>(fn)
+}
+
+const tokenFactory = createToken('factory')
+const useFactory = async((resolve) => {
+  setTimeout(() => resolve(123), 1000)
+})
 
 describe('di', () => {
   test('token with value', async () => {
@@ -60,5 +81,35 @@ describe('di', () => {
 
     expect(b).toBeInstanceOf(B)
     expect(b.a).toBeInstanceOf(A)
+  })
+
+  test('async dependency', async () => {
+    const fnFactory = jest.fn()
+
+    class Age {
+      constructor(value: number) {}
+    }
+
+    await load(
+      set(
+        {
+          ref: tokenFactory,
+          use: useFactory,
+        },
+        {
+          ref: Age,
+          use(value: number) {
+            fnFactory(value)
+            return new Age(value)
+          },
+          dep: [tokenFactory],
+        }
+      )
+    )
+
+    const b = use(Age)
+
+    expect(b).toBeInstanceOf(Age)
+    expect(fnFactory).toHaveBeenCalledWith(123)
   })
 })
